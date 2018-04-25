@@ -13,5 +13,5 @@ import dagger.Subcomponent;
 @Subcomponent (modules = ConverterActivityModule.class)
 public interface ConverterActivitySubcomponent {
 
-    void inject(ConverterActivity homeActivity);
+    void inject(ConverterActivity converterActivity);
 }

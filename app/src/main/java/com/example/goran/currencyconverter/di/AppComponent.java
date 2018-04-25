@@ -13,6 +13,6 @@ public interface AppComponent {
 
     void inject(BaseApplication baseApplication);
 
-    ConverterActivitySubcomponent converterActivitySubcomponent(ConverterActivityModule homeActivityModule);
+    ConverterActivitySubcomponent converterActivitySubcomponent(ConverterActivityModule converterActivityModule);
 
 }

@@ -15,8 +15,6 @@ public interface ConverterContract {
         void displayNetworkError();
 
         void displayInputError();
-
-
     }
 
     interface Presenter {

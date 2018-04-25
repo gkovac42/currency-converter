@@ -31,7 +31,6 @@ public class ConverterPresenter implements ConverterContract.Presenter, DataMana
 
     @Override
     public void onClickSubmit(double quantity, Currency fromCurrency, Currency toCurrency) {
-        Log.e("LOG", String.valueOf(quantity));
         String result = dataManager.convertCurrency(quantity, fromCurrency, toCurrency);
         view.displayResult(result);
     }

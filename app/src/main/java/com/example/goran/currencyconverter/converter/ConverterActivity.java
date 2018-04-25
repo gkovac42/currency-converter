@@ -28,7 +28,6 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
     private static final int HRK_POSITION = 0;
     private static final String BUNDLE_RESULT = "bundle_result";
 
-
     @BindView(R.id.txt_input) EditText txtInput;
     @BindView(R.id.txt_result) TextView txtResult;
     @BindView(R.id.btn_submit) Button btnSubmit;
@@ -38,7 +37,7 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
     @Inject
     ConverterContract.Presenter presenter;
 
-    private Bundle savedState;
+    private Bundle savedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,7 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
                 .inject(this);
 
         if (savedInstanceState != null) {
-            savedState = savedInstanceState;
+            this.savedInstanceState = savedInstanceState;
         }
 
         presenter.getData();
@@ -60,7 +59,9 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(BUNDLE_RESULT, txtResult.getText().toString());
+        if (!txtResult.getText().toString().isEmpty()) {
+            outState.putString(BUNDLE_RESULT, txtResult.getText().toString());
+        }
     }
 
     @Override
@@ -78,8 +79,8 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
         spinnerFrom.setAdapter(spinnerAdapter);
         spinnerTo.setAdapter(spinnerAdapter);
 
-        if (savedState != null) {
-            txtResult.setText(savedState.getString(BUNDLE_RESULT));
+        if (savedInstanceState != null) {
+            txtResult.setText(savedInstanceState.getString(BUNDLE_RESULT));
         }
 
     }
@@ -110,7 +111,7 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
         }
     }
 
-    private void processUserInput() {
+    private void processUserInput() throws NumberFormatException {
         double quantity = Double.parseDouble(txtInput.getText().toString());
         Currency fromCurrency = (Currency) spinnerFrom.getSelectedItem();
         Currency toCurrency = (Currency) spinnerTo.getSelectedItem();

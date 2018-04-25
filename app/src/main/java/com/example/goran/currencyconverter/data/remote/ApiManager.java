@@ -22,5 +22,4 @@ public class ApiManager {
     public Observable<List<Currency>> getCurrencyRates() {
         return apiService.getCurrencyRates();
     }
-
 }

@@ -1,7 +1,5 @@
 package com.example.goran.currencyconverter.data;
 
-import android.util.Log;
-
 import com.example.goran.currencyconverter.data.remote.ApiManager;
 import com.example.goran.currencyconverter.data.remote.model.Currency;
 import com.example.goran.currencyconverter.data.util.CurrencyConverter;
@@ -75,7 +73,5 @@ public class DataManagerImpl implements DataManager {
         if (!compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
         }
-
-        Log.e("LOG", "CleanUp complete!");
     }
 }
