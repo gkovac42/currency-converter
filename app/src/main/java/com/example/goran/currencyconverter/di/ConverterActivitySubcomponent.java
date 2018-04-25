@@ -5,9 +5,6 @@ import com.example.goran.currencyconverter.di.scope.PerActivity;
 
 import dagger.Subcomponent;
 
-/**
- * Created by Goran on 10.1.2018..
- */
 
 @PerActivity
 @Subcomponent (modules = ConverterActivityModule.class)

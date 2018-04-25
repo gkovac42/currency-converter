@@ -7,9 +7,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Goran on 28.12.2017..
- */
 
 @Module
 public class AppModule {

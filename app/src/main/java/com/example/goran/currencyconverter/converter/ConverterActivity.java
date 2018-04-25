@@ -2,6 +2,7 @@ package com.example.goran.currencyconverter.converter;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +54,8 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
             this.savedInstanceState = savedInstanceState;
         }
 
+        initDoneActionListener();
+
         presenter.getData();
     }
 
@@ -85,8 +88,8 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
 
     }
 
-    /*Here I followed the logic of the API converter (http://hnbex.eu/) which converts
-       HRK to other currencies or other currencies to HRK, and adapts other spinner's selected item accordingly*/
+    /* Here I followed the logic of the API converter (http://hnbex.eu/) which converts
+       HRK to other currencies or other currencies to HRK, and adapts other spinner's selected item accordingly */
     @OnItemSelected(R.id.spinner_from)
     public void spinnerFromItemSelected(int position) {
         if (position != HRK_POSITION) {
@@ -99,6 +102,15 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
         if (position != HRK_POSITION) {
             spinnerFrom.setSelection(HRK_POSITION);
         }
+    }
+
+    private void initDoneActionListener() {
+        txtInput.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                submit();
+            }
+            return false;
+        });
     }
 
     @OnClick(R.id.btn_submit)
