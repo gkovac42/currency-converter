@@ -73,7 +73,6 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
         super.onDestroy();
     }
 
-
     @Override
     public void loadSpinnersData(List<Currency> currencies) {
         ArrayAdapter<Currency> spinnerAdapter =
@@ -85,7 +84,6 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
         if (savedInstanceState != null) {
             txtResult.setText(savedInstanceState.getString(BUNDLE_RESULT));
         }
-
     }
 
     /* Here I followed the logic of the API converter (http://hnbex.eu/) which converts
@@ -133,7 +131,7 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
 
     @Override
     public void displayResult(String result) {
-        txtResult.setText(String.valueOf(result));
+        txtResult.setText(result);
     }
 
     @Override
