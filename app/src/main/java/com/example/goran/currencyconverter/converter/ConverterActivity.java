@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import butterknife.OnItemSelected;
 
 public class ConverterActivity extends AppCompatActivity implements ConverterContract.View {
@@ -53,8 +54,6 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
         if (savedInstanceState != null) {
             this.savedInstanceState = savedInstanceState;
         }
-
-        initDoneActionListener();
 
         presenter.getData();
     }
@@ -102,13 +101,12 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
         }
     }
 
-    private void initDoneActionListener() {
-        txtInput.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (i == EditorInfo.IME_ACTION_DONE) {
-                submit();
-            }
-            return false;
-        });
+    @OnEditorAction(R.id.txt_input)
+    public boolean onEditorActionDone(int action) {
+        if (action == EditorInfo.IME_ACTION_DONE) {
+            submit();
+        }
+        return false;
     }
 
     @OnClick(R.id.btn_submit)
