@@ -5,7 +5,6 @@ import com.example.goran.currencyconverter.data.remote.model.Currency;
 import com.example.goran.currencyconverter.data.util.CurrencyConverter;
 import com.example.goran.currencyconverter.di.scope.PerActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,10 +44,8 @@ public class DataManagerImpl implements DataManager {
     public void getCurrencyRates() {
         Single<List<Currency>> single = apiManager.getCurrencyRates();
         single.map(currencies -> {
-            List<Currency> currenciesWithHrk = new ArrayList<>();
-            currenciesWithHrk.add(new Currency("HRK"));
-            currenciesWithHrk.addAll(currencies);
-            return currenciesWithHrk;
+            currencies.add(0, new Currency("HRK"));
+            return currencies;
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
