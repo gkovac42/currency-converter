@@ -3,22 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <EditText
         android:id="@+id/txt_input"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/converter_value"
         android:inputType="numberDecimal" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/converter_from"
-        android:textAllCaps="true" />
 
     <Spinner
         android:id="@+id/spinner_from"
@@ -26,12 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/converter_to"
-        android:textAllCaps="true" />
+        android:src="@android:drawable/arrow_down_float"/>
 
     <Spinner
         android:id="@+id/spinner_to"
@@ -41,7 +31,7 @@
 
     <Button
         android:id="@+id/btn_submit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/converter_submit" />
@@ -53,5 +43,12 @@
         android:layout_marginTop="8dp"
         android:textSize="18sp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/converter_clear" />
 
 </LinearLayout>

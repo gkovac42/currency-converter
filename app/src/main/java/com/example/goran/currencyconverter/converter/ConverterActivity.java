@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,7 +31,6 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
 
     @BindView(R.id.txt_input) EditText txtInput;
     @BindView(R.id.txt_result) TextView txtResult;
-    @BindView(R.id.btn_submit) Button btnSubmit;
     @BindView(R.id.spinner_from) Spinner spinnerFrom;
     @BindView(R.id.spinner_to) Spinner spinnerTo;
 
@@ -104,13 +102,13 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
     @OnEditorAction(R.id.txt_input)
     public boolean onEditorActionDone(int action) {
         if (action == EditorInfo.IME_ACTION_DONE) {
-            submit();
+            onClickSubmit();
         }
         return false;
     }
 
     @OnClick(R.id.btn_submit)
-    public void submit() {
+    public void onClickSubmit() {
         try {
             processUserInput();
 
@@ -125,6 +123,17 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
         Currency toCurrency = (Currency) spinnerTo.getSelectedItem();
 
         presenter.onClickSubmit(quantity, fromCurrency, toCurrency);
+    }
+
+    @OnClick(R.id.btn_clear)
+    void onClickClear() {
+        presenter.onClickClear();
+    }
+
+    @Override
+    public void clearInput() {
+        txtInput.setText("");
+        txtResult.setText("");
     }
 
     @Override

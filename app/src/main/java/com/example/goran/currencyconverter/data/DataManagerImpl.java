@@ -10,7 +10,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -42,22 +43,31 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public void getCurrencyRates() {
-        Observable<List<Currency>> observable = apiManager.getCurrencyRates()
+        Single<List<Currency>> single = apiManager.getCurrencyRates();
+        single.map(currencies -> {
+            List<Currency> currenciesWithHrk = new ArrayList<>();
+            currenciesWithHrk.add(new Currency("HRK"));
+            currenciesWithHrk.addAll(currencies);
+            return currenciesWithHrk;
+        })
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<Currency>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
 
-        Disposable disposable = observable.subscribe(
-                currencies -> {
-                    Currency hrk = new Currency("HRK");
-                    List<Currency> currenciesWithHrk = new ArrayList<>();
-                    currenciesWithHrk.add(hrk);
-                    currenciesWithHrk.addAll(currencies);
-                    listener.onDataReady(currenciesWithHrk);
-                },
+                    @Override
+                    public void onSuccess(List<Currency> currencies) {
+                        listener.onDataReady(currencies);
+                    }
 
-                throwable -> listener.onError());
-
-        compositeDisposable.add(disposable);
+                    @Override
+                    public void onError(Throwable e) {
+                        listener.onError();
+                    }
+                });
     }
 
     @Override

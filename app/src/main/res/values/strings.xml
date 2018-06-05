@@ -6,4 +6,5 @@
     <string name="converter_submit">Submit</string>
     <string name="network_error">Oops, something went wrong :(</string>
     <string name="input_error">Please enter a number.</string>
+    <string name="converter_clear">Clear</string>
 </resources>

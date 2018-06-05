@@ -5,11 +5,11 @@ import com.example.goran.currencyconverter.util.Constants;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.http.GET;
 
 public interface HnbApiService {
 
     @GET(Constants.API_RATES_ENDPOINT)
-    Observable<List<Currency>> getCurrencyRates();
+    Single<List<Currency>> getCurrencyRates();
 }

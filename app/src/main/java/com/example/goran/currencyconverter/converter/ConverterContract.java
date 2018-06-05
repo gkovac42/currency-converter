@@ -15,6 +15,8 @@ public interface ConverterContract {
         void displayNetworkError();
 
         void displayInputError();
+
+        void clearInput();
     }
 
     interface Presenter {
@@ -22,6 +24,8 @@ public interface ConverterContract {
         void getData();
 
         void onClickSubmit(double quantity, Currency fromCurrency, Currency toCurrency);
+
+        void onClickClear();
 
         void onInputError();
 

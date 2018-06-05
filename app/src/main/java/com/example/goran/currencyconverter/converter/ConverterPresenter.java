@@ -1,7 +1,5 @@
 package com.example.goran.currencyconverter.converter;
 
-import android.util.Log;
-
 import com.example.goran.currencyconverter.data.DataManager;
 import com.example.goran.currencyconverter.data.DataManagerImpl;
 import com.example.goran.currencyconverter.data.remote.model.Currency;
@@ -33,6 +31,11 @@ public class ConverterPresenter implements ConverterContract.Presenter, DataMana
     public void onClickSubmit(double quantity, Currency fromCurrency, Currency toCurrency) {
         String result = dataManager.convertCurrency(quantity, fromCurrency, toCurrency);
         view.displayResult(result);
+    }
+
+    @Override
+    public void onClickClear() {
+        view.clearInput();
     }
 
     @Override

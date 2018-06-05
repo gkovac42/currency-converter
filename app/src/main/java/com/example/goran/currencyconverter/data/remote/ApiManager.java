@@ -7,7 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 @Singleton
 public class ApiManager {
@@ -19,7 +19,7 @@ public class ApiManager {
         this.apiService = apiService;
     }
 
-    public Observable<List<Currency>> getCurrencyRates() {
+    public Single<List<Currency>> getCurrencyRates() {
         return apiService.getCurrencyRates();
     }
 }
