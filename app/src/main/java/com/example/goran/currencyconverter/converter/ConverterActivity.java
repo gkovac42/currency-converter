@@ -84,7 +84,7 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
     }
 
     /* Here I followed the logic of the API converter (http://hnbex.eu/) which converts
-       HRK to other currencies or other currencies to HRK, and adapts other spinner's selected item accordingly */
+       HRK to other currencies or other currencies to HRK, and adapts the other spinner's selected item accordingly */
     @OnItemSelected(R.id.spinner_from)
     public void spinnerFromItemSelected(int position) {
         if (position != HRK_POSITION) {
