@@ -1,6 +1,6 @@
 package com.example.goran.currencyconverter.data.remote;
 
-import com.example.goran.currencyconverter.data.remote.model.Currency;
+import com.example.goran.currencyconverter.data.model.Currency;
 
 import java.util.List;
 

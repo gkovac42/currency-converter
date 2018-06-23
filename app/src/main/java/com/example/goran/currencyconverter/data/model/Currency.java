@@ -1,12 +1,19 @@
-package com.example.goran.currencyconverter.data.remote.model;
+package com.example.goran.currencyconverter.data.model;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "currency_table")
 public class Currency {
 
     @SerializedName("currency_code")
     @Expose
+    @PrimaryKey
+    @NonNull
     private String currencyCode;
     @SerializedName("unit_value")
     @Expose
@@ -35,7 +42,11 @@ public class Currency {
         this.unitValue = unitValue;
     }
 
-    public Double getMedianRate() {
+    public String getMedianRate() {
+        return medianRate;
+    }
+
+    public Double getMedianRateAsDouble() {
         return Double.parseDouble(medianRate);
     }
 

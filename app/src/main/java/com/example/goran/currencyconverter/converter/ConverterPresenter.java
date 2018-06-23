@@ -1,13 +1,16 @@
 package com.example.goran.currencyconverter.converter;
 
+import android.util.Log;
+
 import com.example.goran.currencyconverter.data.DataManager;
-import com.example.goran.currencyconverter.data.remote.model.Currency;
+import com.example.goran.currencyconverter.data.model.Currency;
 import com.example.goran.currencyconverter.di.scope.PerActivity;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -29,8 +32,51 @@ public class ConverterPresenter implements ConverterContract.Presenter {
     }
 
     @Override
-    public void getData() {
-        dataManager.getCurrencyRates()
+    public void getData(boolean hasNetwork) {
+        if (hasNetwork) {
+            getDataRemote();
+
+        } else {
+            getDataLocal();
+            Log.e("INFO", "Getting local data.");
+        }
+    }
+
+    private void getDataRemote() {
+        dataManager.getCurrencyRatesRemote()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<Currency>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(List<Currency> currencies) {
+                        view.loadSpinnersData(currencies);
+                        saveData(currencies);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.displayNetworkError();
+                    }
+                });
+    }
+
+    private void saveData(List<Currency> currencies) {
+        compositeDisposable.add(Observable.fromIterable(currencies)
+                .subscribeOn(Schedulers.io())
+                .subscribe(currency -> {
+                            dataManager.saveCurrency(currency);
+                            Log.e("SAVED!", currency.getCurrencyCode());
+                        },
+                        throwable -> view.displayDatabaseError()));
+    }
+
+    private void getDataLocal() {
+        dataManager.getCurrencyRatesLocal()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<Currency>>() {
@@ -46,7 +92,8 @@ public class ConverterPresenter implements ConverterContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        view.displayNetworkError();
+                        Log.e("ERROR", e.getMessage());
+                        view.displayDatabaseError();
                     }
                 });
     }

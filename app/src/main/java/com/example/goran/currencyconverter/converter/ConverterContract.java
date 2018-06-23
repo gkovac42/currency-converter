@@ -1,6 +1,6 @@
 package com.example.goran.currencyconverter.converter;
 
-import com.example.goran.currencyconverter.data.remote.model.Currency;
+import com.example.goran.currencyconverter.data.model.Currency;
 
 import java.util.List;
 
@@ -16,12 +16,14 @@ public interface ConverterContract {
 
         void displayInputError();
 
+        void displayDatabaseError();
+
         void clearInput();
     }
 
     interface Presenter {
 
-        void getData();
+        void getData(boolean hasNetwork);
 
         void onClickSubmit(double quantity, Currency fromCurrency, Currency toCurrency);
 

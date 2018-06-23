@@ -1,8 +1,9 @@
 package com.example.goran.currencyconverter.data;
 
+import com.example.goran.currencyconverter.data.local.CurrencyRoomDatabase;
+import com.example.goran.currencyconverter.data.model.Currency;
 import com.example.goran.currencyconverter.data.remote.ApiManager;
-import com.example.goran.currencyconverter.data.remote.model.Currency;
-import com.example.goran.currencyconverter.data.util.CurrencyConverter;
+import com.example.goran.currencyconverter.data.util.Converter;
 import com.example.goran.currencyconverter.di.scope.PerActivity;
 
 import java.util.List;
@@ -15,14 +16,16 @@ import io.reactivex.Single;
 public class DataManagerImpl implements DataManager {
 
     private ApiManager apiManager;
+    private CurrencyRoomDatabase database;
 
     @Inject
-    public DataManagerImpl(ApiManager apiManager) {
+    public DataManagerImpl(ApiManager apiManager, CurrencyRoomDatabase database) {
         this.apiManager = apiManager;
+        this.database = database;
     }
 
     @Override
-    public Single<List<Currency>> getCurrencyRates() {
+    public Single<List<Currency>> getCurrencyRatesRemote() {
         return apiManager.getCurrencyRates()
                 .map(currencies -> {
                     currencies.add(0, new Currency("HRK"));
@@ -31,7 +34,18 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
+    public Single<List<Currency>> getCurrencyRatesLocal() {
+        return database.currencyDao().getAll();
+    }
+
+    @Override
+    public void saveCurrency(Currency currency) {
+        database.currencyDao().insert(currency);
+    }
+
+
+    @Override
     public String convertCurrency(double quantity, Currency fromCurrency, Currency toCurrency) {
-        return CurrencyConverter.convert(quantity, fromCurrency, toCurrency);
+        return Converter.convert(quantity, fromCurrency, toCurrency);
     }
 }

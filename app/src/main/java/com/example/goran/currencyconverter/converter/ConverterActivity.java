@@ -1,5 +1,7 @@
 package com.example.goran.currencyconverter.converter;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.inputmethod.EditorInfo;
@@ -11,7 +13,7 @@ import android.widget.Toast;
 
 import com.example.goran.currencyconverter.BaseApplication;
 import com.example.goran.currencyconverter.R;
-import com.example.goran.currencyconverter.data.remote.model.Currency;
+import com.example.goran.currencyconverter.data.model.Currency;
 import com.example.goran.currencyconverter.di.ConverterActivityModule;
 
 import java.util.List;
@@ -53,7 +55,7 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
             this.savedInstanceState = savedInstanceState;
         }
 
-        presenter.getData();
+        presenter.getData(isNetworkAvailable());
     }
 
     @Override
@@ -68,6 +70,11 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
     protected void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 
     @Override
@@ -148,6 +155,11 @@ public class ConverterActivity extends AppCompatActivity implements ConverterCon
 
     @Override
     public void displayInputError() {
+        Toast.makeText(this, R.string.input_error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayDatabaseError() {
         Toast.makeText(this, R.string.input_error, Toast.LENGTH_SHORT).show();
     }
 }
