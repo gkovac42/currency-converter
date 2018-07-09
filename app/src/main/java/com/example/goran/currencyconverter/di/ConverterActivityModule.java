@@ -3,8 +3,8 @@ package com.example.goran.currencyconverter.di;
 import com.example.goran.currencyconverter.converter.ConverterActivity;
 import com.example.goran.currencyconverter.converter.ConverterContract;
 import com.example.goran.currencyconverter.converter.ConverterPresenter;
-import com.example.goran.currencyconverter.data.DataManager;
-import com.example.goran.currencyconverter.data.DataManagerImpl;
+import com.example.goran.currencyconverter.data.DataRepository;
+import com.example.goran.currencyconverter.data.DataRepositoryImpl;
 import com.example.goran.currencyconverter.di.scope.PerActivity;
 
 import dagger.Module;
@@ -34,7 +34,7 @@ public class ConverterActivityModule {
 
     @Provides
     @PerActivity
-    DataManager provideLoginInteractor(DataManagerImpl dataManager) {
+    DataRepository provideLoginInteractor(DataRepositoryImpl dataManager) {
         return dataManager;
     }
 }

@@ -6,13 +6,13 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public interface DataManager {
+public interface DataRepository {
 
     Single<List<Currency>> getCurrencyRatesRemote();
 
     Single<List<Currency>> getCurrencyRatesLocal();
 
-    void saveCurrency(Currency currency);
+    void saveCurrencies(List<Currency> currencies);
 
     String convertCurrency(double quantity, Currency fromCurrency, Currency toCurrency);
 

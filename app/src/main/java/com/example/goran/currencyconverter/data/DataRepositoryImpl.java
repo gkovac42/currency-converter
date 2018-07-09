@@ -13,13 +13,13 @@ import javax.inject.Inject;
 import io.reactivex.Single;
 
 @PerActivity
-public class DataManagerImpl implements DataManager {
+public class DataRepositoryImpl implements DataRepository {
 
     private ApiManager apiManager;
     private CurrencyRoomDatabase database;
 
     @Inject
-    public DataManagerImpl(ApiManager apiManager, CurrencyRoomDatabase database) {
+    public DataRepositoryImpl(ApiManager apiManager, CurrencyRoomDatabase database) {
         this.apiManager = apiManager;
         this.database = database;
     }
@@ -39,10 +39,9 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public void saveCurrency(Currency currency) {
-        database.currencyDao().insert(currency);
+    public void saveCurrencies(List<Currency> currencies) {
+        database.currencyDao().insertAll(currencies);
     }
-
 
     @Override
     public String convertCurrency(double quantity, Currency fromCurrency, Currency toCurrency) {

@@ -18,5 +18,5 @@ public interface CurrencyDao {
     Single<List<Currency>> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Currency currency);
+    void insertAll(List<Currency> currencies);
 }
