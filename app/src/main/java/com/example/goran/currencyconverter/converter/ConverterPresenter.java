@@ -40,12 +40,9 @@ public class ConverterPresenter implements ConverterContract.Presenter {
 
     private void getDataRemote() {
         repository.getCurrencyRatesRemote()
-                .map(currencies -> {
-                    repository.saveCurrencies(currencies);
-                    return currencies;
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(currencies -> repository.saveCurrencies(currencies))
                 .subscribe(new SingleObserver<List<Currency>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
