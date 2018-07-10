@@ -4,14 +4,10 @@ import com.example.goran.currencyconverter.data.DataRepository;
 import com.example.goran.currencyconverter.data.model.Currency;
 import com.example.goran.currencyconverter.di.scope.PerActivity;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 @PerActivity
@@ -39,48 +35,22 @@ public class ConverterPresenter implements ConverterContract.Presenter {
     }
 
     private void getDataRemote() {
-        repository.getCurrencyRatesRemote()
+        compositeDisposable.add(repository.getCurrencyRatesRemote()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(currencies -> repository.saveCurrencies(currencies))
-                .subscribe(new SingleObserver<List<Currency>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        compositeDisposable.add(d);
-                    }
-
-                    @Override
-                    public void onSuccess(List<Currency> currencies) {
-                        view.loadSpinnersData(currencies);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        view.displayNetworkError();
-                    }
-                });
+                .doAfterSuccess(currencies -> repository.saveCurrencies(currencies))
+                .subscribe(currencies -> view.loadSpinnersData(currencies),
+                        throwable -> view.displayNetworkError()
+                ));
     }
 
     private void getDataLocal() {
-        repository.getCurrencyRatesLocal()
+        compositeDisposable.add(repository.getCurrencyRatesLocal()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<Currency>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        compositeDisposable.add(d);
-                    }
-
-                    @Override
-                    public void onSuccess(List<Currency> currencies) {
-                        view.loadSpinnersData(currencies);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        view.displayDatabaseError();
-                    }
-                });
+                .subscribe(currencies -> view.loadSpinnersData(currencies),
+                        throwable -> view.displayDatabaseError()
+                ));
     }
 
     @Override
