@@ -36,9 +36,9 @@ public class ConverterPresenter implements ConverterContract.Presenter {
 
     private void getDataRemote() {
         compositeDisposable.add(repository.getCurrencyRatesRemote()
+                .doOnSuccess(currencies -> repository.saveCurrencies(currencies))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterSuccess(currencies -> repository.saveCurrencies(currencies))
                 .subscribe(currencies -> view.loadSpinnersData(currencies),
                         throwable -> view.displayNetworkError()
                 ));
